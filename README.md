@@ -1,68 +1,96 @@
-# 🚀 Automatización de carga de SuiteCRM
+# 🚀 SuiteCRM Automation (Excel & Word IA)
 
-Este proyecto ofrece dos formas de automatizar la carga de registros de tiempos en SuiteCRM.
+Este proyecto automatiza la carga de registros de tiempos en SuiteCRM mediante dos vías: una tradicional vía Excel y una avanzada usando Inteligencia Artificial para procesar reportes en formato Word.
+
+---
 
 ## 📂 Estructura del Proyecto
 
-1.  **`suite_excel/`**: Carga tradicional mediante archivo Excel estructurado.
-2.  **`suite_ia/`**: Carga avanzada mediante Word (IA).
-3.  **`core/`**: Motor compartido de automatización con Playwright.
+1.  **`suite_excel/`**: Carga mediante archivo Excel estructurado (`registry.xlsx`).
+2.  **`suite_ia/`**: Carga mediante Word (`registry.docx`) procesado por OpenAI.
+3.  **`core/`**: Motor compartido de automatización (Playwright).
 
 ---
 
-## 📊 1. Carga mediante Excel (Manual)
+## 📦 Instalación (Paso a Paso)
 
-Ideal cuando ya tienes tus horas registradas en una tabla.
+Este proyecto utiliza **`uv`**, que es el gestor de paquetes más rápido para Python. Sigue las instrucciones según tu sistema operativo:
 
-### 📁 Archivo
-`suite_excel/registry.xlsx`
+### 1. Instalar `uv`
+*   **Windows (PowerShell):**
+    ```powershell
+    powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+    ```
+*   **macOS / Linux:**
+    ```bash
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+*   **Manjaro (Pacman):**
+    ```bash
+    sudo pacman -S uv
+    ```
 
-### 📋 Formato
-| NOMBRE DEL PROYECTO | TAREA SHORT | TAREA LONG | HORAS | FECHA |
-|-------------------|-------------|------------|-------|-------|
-| CRM Gregal        | Bugfix      | Fix en login| 2     | 12/3/2026 |
-
-### ▶️ Ejecución
+### 2. Preparar el entorno
+Clona el repositorio, entra en la carpeta y ejecuta:
 ```bash
-uv run suite_excel/loader.py
+uv sync
 ```
 
----
-
-## 🤖 2. Carga mediante IA (Word)
-
-Ideal para escribir tu trabajo del día de forma libre y que la IA extraiga los datos automáticamente.
-
-### 📁 Archivo
-`suite_ia/registry.docx` (Puedes escribir párrafos libres allí).
-
-### 🧪 Ejemplo de contenido del Word:
-> "Hoy 12 de marzo estuve 3 horas en el proyecto BBVASPARK maquetando la home."
-
-### ▶️ Ejecución
+### 3. Instalar Navegadores (Playwright)
+#### 🖥️ En Windows / macOS
+Solo ejecuta:
 ```bash
-uv run suite_ia/processor.py
+uv run playwright install
+```
+
+#### 🐧 En Manjaro / Arch Linux (Instalación específica)
+Debido a las dependencias de sistema de los navegadores en Arch/Manjaro, es necesario instalar las librerías necesarias antes de ejecutar Playwright. Ejecuta este comando (todo en uno):
+
+```bash
+sudo pacman -S --needed nss atk at-spi2-core cups libxkbcommon libxcomposite libxdamage libxrandr libxfixes libxext libx11 mesa alsa-lib gtk3 pango cairo gdk-pixbuf2 libxcb libdrm libxshmfence libxrender libxi libxtst libxss dbus expat libffi libevent opus libwebp libjpeg-turbo libpng libtiff icu harfbuzz freetype2 fontconfig flite
+```
+
+Y luego:
+```bash
+uv run playwright install
 ```
 
 ---
 
 ## ⚙️ Configuración (.env)
 
-Asegúrate de tener tus credenciales en el archivo `.env`:
+Crea un archivo llamado `.env` en la raíz del proyecto con la siguiente estructura:
 
 ```env
 CRM_URL=https://crm.metricsalad.com/suitecrm
 CRM_USER=tu_usuario
 CRM_PASSWORD=tu_password
-OPENAI_API_KEY=tu_key_aqui
+OPENAI_API_KEY=tu_openai_key_aqui
 ```
 
-## 📦 Instalación
+---
 
-```bash
-uv sync
-uv run playwright install
-```
+## 🚀 Cómo ejecutar la carga
 
-## 🧪 Notas de Debug
-Ambos scripts tienen activada la `pausa_debug = True` por defecto para que puedas verificar los datos en el navegador antes de que el script haga clic en "Guardar".
+### Opción A: Carga mediante Excel (Manual)
+Ideal para tablas estructuradas.
+1. Rellena el archivo `suite_excel/registry.xlsx`.
+2. Ejecuta:
+   ```bash
+   uv run suite_excel/loader.py
+   ```
+
+### Opción B: Carga mediante IA (Word)
+Ideal para reportes narrativos de trabajo.
+1. Escribe tu trabajo libremente en `suite_ia/registry.docx`.
+   *   *Ejemplo: "Ayer estuve 3:15 horas en el proyecto BBVA corrigiendo fallos de login."*
+2. Ejecuta:
+   ```bash
+   uv run suite_ia/processor.py
+   ```
+   *El script te mostrará los datos extraídos por la IA y te pedirá confirmación antes de subir.*
+
+---
+
+## 🧪 Notas de Depuración
+Por defecto, ambos scripts tienen activada la **`pausa_debug = True`**. El navegador se detendrá antes de guardar para que puedas verificar los datos. Haz clic en el botón "Resume" en el navegador para continuar.
