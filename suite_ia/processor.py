@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 import json
 import sys
@@ -19,6 +20,22 @@ def limpiar_json(content):
         content = content.replace("```json", "")
         content = content.replace("```", "")
     return content.strip()
+
+
+def normalizar_fecha_ia(fecha_str):
+    """
+    Convierte la fecha que devuelve la IA (DD/MM/YYYY) al formato
+    que espera SuiteCRM (MM/DD/YYYY).
+    Lanza ValueError si el formato no es válido.
+    """
+    try:
+        dt = datetime.strptime(fecha_str.strip(), "%d/%m/%Y")
+        return dt.strftime("%m/%d/%Y")
+    except ValueError:
+        raise ValueError(
+            f"Fecha recibida de la IA con formato inesperado: '{fecha_str}'. "
+            "Se esperaba DD/MM/YYYY."
+        )
 
 
 def extraer_datos_multiples(texto):
@@ -69,10 +86,19 @@ Texto a procesar:
     content = limpiar_json(content)
     
     try:
-        return json.loads(content)
+        registros = json.loads(content)
     except json.JSONDecodeError:
         print("ERROR: No se pudo decodificar el JSON de la respuesta.")
         return []
+
+    # Convertir las fechas del formato IA (DD/MM/YYYY) al que espera el CRM (MM/DD/YYYY)
+    for r in registros:
+        try:
+            r["fecha"] = normalizar_fecha_ia(r["fecha"])
+        except ValueError as e:
+            print(f"⚠️  ADVERTENCIA en fecha: {e}")
+
+    return registros
 
 
 def leer_word(ruta):
