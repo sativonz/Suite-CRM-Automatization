@@ -149,3 +149,10 @@ LOGIN_BUTTON = "#bigbutton"  # <- cambiar aquí si falla
 
 ## 🧪 Notas de Depuración
 Por defecto la **`pausa_debug`** está activada. El navegador se detendrá antes de guardar para que puedas verificar los datos. Haz clic en el botón "Resume" en el navegador para continuar. Usa `--no-debug` para saltarte esta pausa.
+
+## 📝 Licencia
+
+Este proyecto cuenta con licencia **ISC**.
+
+---
+*Desarrollado por [Fernando Garcia](https://github.com/sativonz)*
