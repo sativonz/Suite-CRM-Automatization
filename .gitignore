@@ -10,3 +10,8 @@ wheels/
 .venv
 .env
 
+# Datos y logs (no subir al repo)
+upload_log.json
+suite_excel/registry.xlsx
+suite_ia/registry.docx
+
