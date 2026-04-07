@@ -12,7 +12,7 @@ def test_suitecrm():
         page.fill("#user_name", "fernando.garcia")
 
         # 3. Password
-        page.fill("#username_password", "Ferne1949")
+        page.fill("#username_password", "password")
 
         # 4. Submit
         page.click("#bigbutton")
