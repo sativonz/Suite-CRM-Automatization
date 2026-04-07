@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+
+# Datos y logs (no subir al repo)
+upload_log.json
+suite_excel/registry.xlsx
+suite_ia/registry.docx
+
