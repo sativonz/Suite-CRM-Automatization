@@ -80,11 +80,16 @@ Todo se lanza desde `main.py` usando el flag `--source`:
 
 ### Opción A: Carga mediante Excel (Manual)
 Ideal para tablas estructuradas.
-1. Rellena el archivo `suite_excel/registry.xlsx`.
-2. Ejecuta:
-   ```bash
-   uv run main.py --source excel
-   ```
+
+1.  Rellena el archivo `suite_excel/registry.xlsx`.
+2.  **Formato requerido:**
+    *   **Columnas:** `NOMBRE DEL PROYECTO`, `TAREA SHORT`, `TAREA LONG`, `HORAS`, `FECHA`.
+    *   **Horas:** Admite números enteros y decimales. Puedes usar tanto el punto como la coma (ej: `2.5` o `2,5`).
+    *   **Fechas:** Admite el formato de fecha nativo de Excel o texto con formato `DD/MM/AAAA` o `AAAA-MM-DD`.
+3.  Ejecuta:
+    ```bash
+    uv run main.py --source excel
+    ```
 
 ### Opción B: Carga mediante IA (Word)
 Ideal para reportes narrativos de trabajo.
